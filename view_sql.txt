@@ -1,0 +1,11 @@
+by_days:
+    select `histories`.`slave_id` AS `slave_id`,max(`histories`.`kw`) AS `kw`,cast(`histories`.`datetime` as date) AS `date` from `histories` group by `histories`.`slave_id`,cast(`histories`.`datetime` as date) order by cast(`histories`.`datetime` as date)
+
+by_hours:
+    select `histories`.`slave_id` AS `slave_id`,max(`histories`.`kw`) AS `kw`,hour(`histories`.`datetime`) AS `hour`,cast(`histories`.`datetime` as date) AS `date` from `histories` group by hour(`histories`.`datetime`),cast(`histories`.`datetime` as date),`histories`.`slave_id`
+
+daily_difference:
+    select `b1`.`slave_id` AS `slave_id`,`b1`.`date` AS `date`,greatest((`b1`.`kw` - coalesce((select `b2`.`kw` from `by_days` `b2` where ((`b2`.`slave_id` = `b1`.`slave_id`) and (`b2`.`date` < `b1`.`date`)) order by `b2`.`date` desc limit 1),0)),0) AS `daily_consumption` from `by_days` `b1`
+
+hourly_difference:
+    select `b1`.`slave_id` AS `slave_id`,`b1`.`date` AS `date`,`b1`.`hour` AS `hour`,greatest((`b1`.`kw` - coalesce(lag(`b1`.`kw`,1) OVER (PARTITION BY `b1`.`slave_id` ORDER BY `b1`.`date`,`b1`.`hour` ) ,0)),0) AS `hourly_consumption` from (select `by_hours`.`slave_id` AS `slave_id`,`by_hours`.`date` AS `date`,`by_hours`.`hour` AS `hour`,max(`by_hours`.`kw`) AS `kw` from `by_hours` group by `by_hours`.`slave_id`,`by_hours`.`date`,`by_hours`.`hour`) `b1`

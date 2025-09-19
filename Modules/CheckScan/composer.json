@@ -1,0 +1,31 @@
+{
+    "name": "nwidart/checkscan",
+    "description": "",
+    "authors": [
+        {
+            "name": "Nicolas Widart",
+            "email": "n.widart@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\CheckScan\\": "",
+            "Modules\\CheckScan\\App\\": "app/",
+            "Modules\\CheckScan\\Database\\Factories\\": "database/factories/",
+            "Modules\\CheckScan\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\CheckScan\\Tests\\": "tests/"
+        }
+    }
+}

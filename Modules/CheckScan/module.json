@@ -1,0 +1,11 @@
+{
+    "name": "CheckScan",
+    "alias": "checkscan",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\CheckScan\\App\\Providers\\CheckScanServiceProvider"
+    ],
+    "files": []
+}

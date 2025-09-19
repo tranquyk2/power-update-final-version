@@ -1,0 +1,11 @@
+{
+    "name": "BarcodeScan",
+    "alias": "barcodescan",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\BarcodeScan\\App\\Providers\\BarcodeScanServiceProvider"
+    ],
+    "files": []
+}

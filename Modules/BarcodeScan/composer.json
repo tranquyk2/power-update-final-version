@@ -1,0 +1,31 @@
+{
+    "name": "nwidart/barcodescan",
+    "description": "",
+    "authors": [
+        {
+            "name": "Nicolas Widart",
+            "email": "n.widart@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\BarcodeScan\\": "",
+            "Modules\\BarcodeScan\\App\\": "app/",
+            "Modules\\BarcodeScan\\Database\\Factories\\": "database/factories/",
+            "Modules\\BarcodeScan\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\BarcodeScan\\Tests\\": "tests/"
+        }
+    }
+}

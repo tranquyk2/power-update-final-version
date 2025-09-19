@@ -1,0 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.el-date-editor--date input[type='text'], .el-date-editor--month input[type='text'] {
+    --tw-ring-shadow: none;
+}

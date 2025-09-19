@@ -1,0 +1,5 @@
+{
+    "BarcodeScan": true,
+    "CheckScan": true,
+    "PackingCheck": true
+}
