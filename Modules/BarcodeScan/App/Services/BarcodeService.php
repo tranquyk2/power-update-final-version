@@ -56,7 +56,17 @@ class BarcodeService
                 //     throw new \Exception($check);
                 // }
 
-                $barcode = Barcode::query()->create($data);
+                // Insert vào partition table theo tháng
+                \App\Helpers\MonthlyPartitionHelper::insertMonthly('barcodes', $data, $data['datetime'] ?? null);
+                // Lấy lại bản ghi vừa insert từ bảng partition đúng tháng
+                $month = isset($data['datetime']) ? date('Ym', strtotime($data['datetime'])) : date('Ym');
+                $partitionTable = 'barcodes_' . $month;
+                $barcode = \DB::table($partitionTable)
+                    ->where('factory_id', $data['factory_id'])
+                    ->where('type_id', $data['type_id'])
+                    ->where('code', $data['code'])
+                    ->orderByDesc('id')
+                    ->first();
                 $log = [
                     'barcode_id' => $barcode->id,
                     'note' => "Đã thêm mã quét với trạng thái " . ($barcode->status == 'ok' ? 'OK' : 'NG'),

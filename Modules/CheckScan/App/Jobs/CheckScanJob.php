@@ -65,11 +65,11 @@ class CheckScanJob
                 })
                 ->toArray();
 
-            DB::table('check_scans')->upsert(
-                $rows,
-                ['barcode'],
-                ['result', 'model', 'file_name', 'datetime']
-            );
+
+            // Insert từng bản ghi vào partition table theo tháng
+            foreach ($rows as $row) {
+                \App\Helpers\MonthlyPartitionHelper::insertMonthly('check_scans', $row, $row['datetime'] ?? null);
+            }
 
             Log::info(print_r($rows, true));
 
