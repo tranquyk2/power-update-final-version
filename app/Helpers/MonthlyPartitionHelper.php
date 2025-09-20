@@ -21,7 +21,7 @@ class MonthlyPartitionHelper
         $month = $month ?: date('Ym');
         $newTable = $baseTable . '_' . $month;
         $newTable = str_replace('`', '', $newTable);
-        $exists = DB::select("SHOW TABLES LIKE ?", [$newTable]);
+    $exists = DB::select("SHOW TABLES LIKE '$newTable'");
         if ($exists) return true;
         $create = DB::select("SHOW CREATE TABLE `$baseTable`");
         if (empty($create)) return false;
