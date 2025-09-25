@@ -48,8 +48,7 @@ class CheckScanJob
                 ];
             }, $import->getData());
 
-            //Bắt đầu đưa vào database
-            DB::table('check_scans_tmp')->truncate();
+            // Insert vào bảng tạm
             DB::table('check_scans_tmp')->insert($data);
             $rows = DB::table('check_scans_tmp')
                 ->select(
@@ -64,7 +63,6 @@ class CheckScanJob
                     return (array)$item;
                 })
                 ->toArray();
-
 
             // Insert từng bản ghi vào partition table theo tháng
             foreach ($rows as $row) {

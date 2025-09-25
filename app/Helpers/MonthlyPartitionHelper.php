@@ -56,6 +56,10 @@ class MonthlyPartitionHelper
         if (!$ok) {
             throw new \Exception('Partition table create failed for '.$table);
         }
-        return DB::table($table)->insert($data);
+        // Sử dụng updateOrInsert để tránh lỗi unique barcode
+        return DB::table($table)->updateOrInsert(
+            ['barcode' => $data['barcode']],
+            $data
+        );
     }
 }

@@ -15,6 +15,7 @@ use Modules\CheckScan\App\Models\CheckScan;
 use Modules\CheckScan\App\Models\CheckScanModel;
 use Modules\CheckScan\App\Models\PackingBox;
 use Modules\CheckScan\App\Models\PackingCheck;
+use App\Helpers\PartitionQueryHelper;
 
 class CheckScanController extends BaseApiController
 {
@@ -48,8 +49,8 @@ class CheckScanController extends BaseApiController
 
     public function packing(PackingRequest $request): JsonResponse
     {
-        $checkScan = CheckScan::query()
-            ->firstWhere('barcode', $request->input('barcode'));
+        // Tìm barcode trong các bảng partition check_scans_YYYYMM (12 tháng gần nhất)
+        $checkScan = \App\Helpers\PartitionQueryHelper::findBarcodeInPartitions($request->input('barcode'), 12);
         $isPacked = false;
 
         if (!$checkScan) {
@@ -71,7 +72,7 @@ class CheckScanController extends BaseApiController
             $isPacked = $checked && $checked->result === 'PASS';
 
             if (!$checked) {
-                PackingCheck::query()->create($checkScan->toArray());
+                PackingCheck::query()->create(json_decode(json_encode($checkScan), true));
             }
 
             if ($checked && !($checked->result === 'PASS')) {
